@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Session;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+       return view ('admin.category.index');
     }
 
     /**
@@ -24,7 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view ('admin.category.create');
     }
 
     /**
@@ -35,7 +36,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd(request->all());
+        $this->validate($request,[
+            'name'=>'required|unique:categories,name',
+        ]);
+
+        $category = Category::create([
+            'name'=>$request->name,
+            'slug'=>Str::slug($request->name,'-'),
+            'description'=>$request->description,
+        ]);
+        Session::flash('success','Category Created Successfully');
+        return redirect()->back();
     }
 
     /**
