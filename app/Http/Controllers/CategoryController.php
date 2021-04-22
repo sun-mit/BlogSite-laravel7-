@@ -15,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-       return view ('admin.category.index');
+        $categories = Category::orderBy('created_at','DESC')->paginate(20);
+        return view ('admin.category.index',compact('categories'));
+
     }
 
     /**
@@ -69,7 +71,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view ('admin.category.edit',compact('category'));
+
     }
 
     /**
@@ -81,7 +84,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request,[
+            'name'=>"required|unique:categories,name,$category->name",
+        ]);
+
+            $category->name = $request->name ;
+            $category->slug = Str::slug($request->name,'-');
+            $category->description = $request->description;
+            $category->save();
+
+    
+        Session::flash('success','Category updated Successfully');
+        return redirect()->back();
     }
 
     /**
@@ -92,6 +106,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+       if($category){
+           $category->delete();
+
+        Session::flash('success','Deleted Successfully');
+        return redirect()->route('category.index');
+
+       }
     }
 }
