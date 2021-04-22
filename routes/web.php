@@ -46,5 +46,6 @@ Route::get('/dashboard', function () {
 });
 
 Route::resource('category', 'CategoryController');
+Route::resource('tag', 'TagController');
 
 
