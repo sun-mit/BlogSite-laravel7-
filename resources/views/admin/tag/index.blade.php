@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                           <h3 class="card-title">Tag List</h3>
-                          <a href="{{route('tag.create')}}" class="btn btn-primary">Tag Category</a>
+                          <a href="{{route('tag.create')}}" class="btn btn-primary">Create Tag</a>
                         </div>
                     </div>
                         <!-- /.card-header -->
@@ -38,7 +38,6 @@
                                 <th style="width: 10px">#</th>
                                 <th>Task</th>
                                 <th>Slug</th>
-                                <th>Post Count</th>
                                 <th style="width: 40px">Action</th>
                               </tr>
                             </thead>
@@ -52,9 +51,7 @@
                                 <td>{{$tag->id}}</td>
                                 <td>{{$tag->name}}</td>
                                 <td>{{$tag->slug}}</td>
-                                <td>
-                                  {{$tag->id}}
-                                </td>
+                               
                                 <td class="d-flex">
                                 <a href="{{ route('tag.edit',[$tag->id]) }}" class="btn btn-sm btn-primary mr-1"><i class="fas fa-edit"></i></a>
                                 <form action="{{ route('tag.destroy',[$tag->id]) }}" class="mr-1" method="POST">
@@ -69,7 +66,7 @@
                               @endforeach
                               @else
                               <tr>
-                                <td colspan="5">
+                                <td colspan="4">
                                   <h5 class="text-center">No tag found</h5>
                                 </td>
                               </tr>
